@@ -25,6 +25,6 @@
 ```
 
 # Project Versions
-iOS - N/A
-Next.Js - N/A
-nest - N/A
+- iOS - N/A 
+- Next.Js - N/A
+- nest - N/A
