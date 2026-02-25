@@ -16,12 +16,12 @@
 
 - Frontend Website
 ```
-    Coming Soon To This GitHub
+    https://full-stack-todo-list-frontend-tau.vercel.app/
 ```
 
 - Backend Website
 ```
-    Coming Soon To This GitHub
+    https://full-stack-todo-list-backend-gamma.vercel.app/
 ```
 
 # Project Versions
