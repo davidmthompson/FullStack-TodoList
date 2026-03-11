@@ -9,6 +9,7 @@ import SwiftUI
 
 struct ItemEderOverlay: View {
     
+    @Binding var item: TodoItem?
     @State var title: String = "Cats aNDdog"
     @State var desc: String = ""
     @State var selectedStatus: ItemStatus = .notStarted
@@ -32,6 +33,11 @@ struct ItemEderOverlay: View {
                     }
                 
             }
+            .onAppear(){
+                title = item?.title ?? ""
+                desc = item?.desc ?? ""
+                selectedStatus = item?.itemStatus ?? ItemStatus.notStarted
+            }
         }
     }
     
@@ -47,7 +53,7 @@ struct ItemEderOverlay: View {
             }
             Spacer()
             Button{
-                
+                item = nil
             }label: {
                 Text("Finshed")
             }
@@ -57,5 +63,5 @@ struct ItemEderOverlay: View {
 }
 
 #Preview {
-    HomePage()
+    HomePage(isLogedin: .constant(true))
 }

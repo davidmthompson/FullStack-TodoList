@@ -10,6 +10,8 @@ import SwiftUI
 struct LoginPage: View {
     @State var email: String = ""
     @State var password: String = ""
+    @Binding var isLogedin: Bool
+
     var body: some View {
         VStack{
             Spacer()
@@ -26,7 +28,7 @@ struct LoginPage: View {
                 SecureField("Password", text: $password)
                 
                 Button{
-                    
+                    isLogedin = true
                 } label: {
                     Text("Login")                }
             }
@@ -37,5 +39,5 @@ struct LoginPage: View {
 }
 
 #Preview {
-    LoginPage()
+    LoginPage(isLogedin: .constant(true))
 }
