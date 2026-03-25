@@ -26,5 +26,5 @@
 
 # Project Versions
 iOS - <!--IOS_VERSION--><!--IOS_VERSION_END-->
-Next.js - <!--NEXT_VERSION-->0.1.0<!--NEXT_VERSION_END-->
+Next.js - <!--NEXT_VERSION--><!--NEXT_VERSION_END-->
 Nest - <!--NEST_VERSION--><!--NEST_VERSION_END-->
