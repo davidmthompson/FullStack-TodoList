@@ -27,4 +27,4 @@
 # Project Versions
 iOS - <!--IOS_VERVION-->NA<!--IOS_VERVION_END-->
 Next.js - <!--NEXT_VERVION-->NA<!--NEXT_VERVION_END-->
-Nest - <!--NEXT_VERSION-->NA <!--NEXT_VERSION_END-->
+Nest - <!--NEXT_VERSION--><!--NEXT_VERSION_END-->
