@@ -27,5 +27,25 @@ services:
     depends_on:
       - db
 
+  nest:
+    build: ./backend
+    container_name: backend
+    restart: always
+    ports: 
+      - "6002:3000"
+    depends_on:
+      - db
+    environment:
+      - DB_HOST=mysql
+
+  next:
+    build: ./web
+    container_name: frontend
+    restart: always
+    ports: 
+      - "6001:3000"
+    depends_on:
+      - nest
+
 volumes:
   db_data:
