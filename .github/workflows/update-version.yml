@@ -1,6 +1,6 @@
 name: Update versions in Readme
 
-# This is an event listener, this action will only run on Push to our main branch
+# This is an Event Listener, this action will only run on Push to our main branch
 on:
   push:
     branches:
@@ -16,13 +16,12 @@ jobs:
       - name: Checkout Repo
         uses: actions/checkout@v4
 
-     
-      - name: Read versions
+      - name: Read Versions
         id: versions
-        run: |  
+        run: |
           NEXT_VERSION=$(jq -r '.version' web/package.json)
-          echo "next=$NEXT_VERSION" >> $$GITHUB_OUTPUT
-
+          echo "next=$NEXT_VERSION" >> $GITHUB_OUTPUT
+   
       - name: Update Readme
         run: |
           sed -i "s|<!--NEXT_VERSION-->.*<!--NEXT_VERSION_END-->|<!--NEXT_VERSION-->${{steps.versions.outputs.next}}<!--NEXT_VERSION_END-->|" README.md
@@ -30,7 +29,7 @@ jobs:
       - name: Commit Changes
         run: |
           git config user.name "Github Actions"
-          git config user.user "github-actions@github.com"
+          git config user.email "github-actions@github.com"
           git add README.md
-          git commit -m "chore: update version in README" || echo "No Changes"
+          git commit -m "chore: update versions in README" || echo "No Changes"
           git push
