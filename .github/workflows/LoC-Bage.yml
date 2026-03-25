@@ -19,7 +19,6 @@ jobs:
           debug: true
           directory: ./
           badge: ./output/badge.svg
-          patterns: '*.js | *.ts | *.swift | *.css | *.tsx | *.jsx'
           ignore: 'node_modules'
 
       - name: Deploy to action-data branch
