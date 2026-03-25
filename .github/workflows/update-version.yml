@@ -39,9 +39,9 @@ jobs:
         run: |
           sed -i "s|<!--NEXT_VERSION-->.*<!--NEXT_VERSION_END-->|<!--NEXT_VERSION-->${{steps.versions.outputs.next}}<!--NEXT_VERSION_END-->|" README.md
 
-          sed -i "s|<!--NEST_VERSION-->.*<!--NEST_VERSION_END-->|<!--NEST_VERSION-->${{steps.versions.outputs.next}}<!--NEST_VERSION_END-->|" README.md
+          sed -i "s|<!--NEST_VERSION-->.*<!--NEST_VERSION_END-->|<!--NEST_VERSION-->${{steps.versions.outputs.nest}}<!--NEST_VERSION_END-->|" README.md
 
-          sed -i "s|<!--IOS_VERSION-->.*<!--IOS_VERSION_END-->|<!--IOS_VERSION-->${{steps.versions.outputs.next}}<!--IOS_VERSION_END-->|" README.md
+          sed -i "s|<!--IOS_VERSION-->.*<!--IOS_VERSION_END-->|<!--IOS_VERSION-->${{steps.versions.outputs.iso}}<!--IOS_VERSION_END-->|" README.md
       - name: Commit Changes
         run: |
           git config user.name "Github Actions"
