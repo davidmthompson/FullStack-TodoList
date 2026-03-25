@@ -1,8 +1,6 @@
 name: Update versions in Readme
 
 # This is an Event Listener, this action will only run on Push to our main branch
-# MARKETING_VERSION = 1.0;
-
 on:
   push:
     branches:
@@ -23,25 +21,25 @@ jobs:
         run: |
           NEXT_VERSION=$(jq -r '.version' web/package.json)
           echo "next=$NEXT_VERSION" >> $GITHUB_OUTPUT
-
-          NEST_VERSION=$(jq -r '.version' web/package.json)
-          echo "next=$NEST_VERSION" >> $GITHUB_OUTPUT
+          NEST_VERSION=$(jq -r '.version' backend/package.json)
+          echo "nest=$NEST_VERSION" >> $GITHUB_OUTPUT
 
           IOS_VERSION="NA"
           PBXPROJ=$(find . -name "project.pbxproj" | head -n 1)
-          if [-n "PBXPROJ"]; then 
-            IOS_VERSION=$(grep -m 1 "MARKETING_VERSION" "PBXPROJ" | sed 's/.*= \(.*\); /\1/') | tr -d ' ' 
+          if [ -n "$PBXPROJ" ]; then
+            IOS_VERSION=$(grep -m 1 "MARKETING_VERSION" "$PBXPROJ" | sed 's/.*= \(.*\); /\1/' | tr -d ' ') 
           fi
-   
+          
           echo "ios=$IOS_VERSION" >> $GITHUB_OUTPUT
-
+    # 
       - name: Update Readme
         run: |
           sed -i "s|<!--NEXT_VERSION-->.*<!--NEXT_VERSION_END-->|<!--NEXT_VERSION-->${{steps.versions.outputs.next}}<!--NEXT_VERSION_END-->|" README.md
 
           sed -i "s|<!--NEST_VERSION-->.*<!--NEST_VERSION_END-->|<!--NEST_VERSION-->${{steps.versions.outputs.nest}}<!--NEST_VERSION_END-->|" README.md
 
-          sed -i "s|<!--IOS_VERSION-->.*<!--IOS_VERSION_END-->|<!--IOS_VERSION-->${{steps.versions.outputs.iso}}<!--IOS_VERSION_END-->|" README.md
+          sed -i "s|<!--IOS_VERSION-->.*<!--IOS_VERSION_END-->|<!--IOS_VERSION-->${{steps.versions.outputs.ios}}<!--IOS_VERSION_END-->|" README.md
+
       - name: Commit Changes
         run: |
           git config user.name "Github Actions"
@@ -49,5 +47,3 @@ jobs:
           git add README.md
           git commit -m "chore: update versions in README" || echo "No Changes"
           git push
-
-          
