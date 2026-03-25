@@ -1,5 +1,8 @@
 name: Update versions in Readme
 
+# This is an Event Listener, this action will only run on Push to our main branch
+# MARKETING_VERSION = 1.0;
+
 on:
   push:
     branches:
@@ -18,36 +21,33 @@ jobs:
       - name: Read Versions
         id: versions
         run: |
-          # 1. Next.js Version (Assuming in 'web' folder)
-          NEXT_VERSION=$(jq -r '.version' web/package.json || echo "NA")
+          NEXT_VERSION=$(jq -r '.version' web/package.json)
           echo "next=$NEXT_VERSION" >> $GITHUB_OUTPUT
 
-          # 2. Nest.js Version (Assuming in 'backend' folder)
-          # Note: Change 'backend' to your actual backend folder name
-          NEST_VERSION=$(jq -r '.version' backend/package.json || echo "NA")
-          echo "nest=$NEST_VERSION" >> $GITHUB_OUTPUT
+          NEST_VERSION=$(jq -r '.version' web/package.json)
+          echo "next=$NEST_VERSION" >> $GITHUB_OUTPUT
 
-          # 3. iOS Version
-          # Looks for the first .pbxproj file and extracts MARKETING_VERSION
-          PBXPROJ_PATH=$(find . -name "project.pbxproj" | head -n 1)
-          if [ -n "$PBXPROJ_PATH" ]; then 
-            IOS_VAL=$(grep -m 1 "MARKETING_VERSION" "$PBXPROJ_PATH" | cut -d'=' -f2 | tr -d '; ')
-            echo "ios=$IOS_VAL" >> $GITHUB_OUTPUT
-          else
-            echo "ios=NA" >> $GITHUB_OUTPUT
+          IOS_VERSION="NA"
+          PBXPROJ=$(find . -name "project.pbxproj" | head -n 1)
+          if [-n "PBXPROJ"]; then 
+            IOS_VERSION=$(grep -m 1 "MARKETING_VERSION" "PBXPROJ" | sed 's/.*= \(.*\); /\1/') | tr -d ' ' 
           fi
+   
+          echo "ios=$IOS_VERSION" >> $GITHUB_OUTPUT
 
       - name: Update Readme
         run: |
-          # Use @ as delimiter to prevent issues with slashes or spaces
-          sed -i "s@.*@${{ steps.versions.outputs.next }}@g" README.md
-          sed -i "s@.*@${{ steps.versions.outputs.nest }}@g" README.md
-          sed -i "s@.*@${{ steps.versions.outputs.ios }}@g" README.md
+          sed -i "s|<!--NEXT_VERSION-->.*<!--NEXT_VERSION_END-->|<!--NEXT_VERSION-->${{steps.versions.outputs.next}}<!--NEXT_VERSION_END-->|" README.md
 
+          sed -i "s|<!--NEST_VERSION-->.*<!--NEST_VERSION_END-->|<!--NEST_VERSION-->${{steps.versions.outputs.nest}}<!--NEST_VERSION_END-->|" README.md
+
+          sed -i "s|<!--IOS_VERSION-->.*<!--IOS_VERSION_END-->|<!--IOS_VERSION-->${{steps.versions.outputs.iso}}<!--IOS_VERSION_END-->|" README.md
       - name: Commit Changes
         run: |
           git config user.name "Github Actions"
           git config user.email "github-actions@github.com"
           git add README.md
-          # Only commit if there are actual changes to prevent workflow failure
-          git diff --quiet && git diff --staged --quiet || (git commit -m "chore: update versions in README" && git push)
+          git commit -m "chore: update versions in README" || echo "No Changes"
+          git push
+
+          
