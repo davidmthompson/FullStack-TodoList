@@ -1,4 +1,4 @@
-# FullStack-TodoList
+# FullStack-TodoList ![Generated lines of code](https://davidmthompson.github.io/FullStack-TodoList/badge.svg)
 
 ## Project Tech Stack
 
