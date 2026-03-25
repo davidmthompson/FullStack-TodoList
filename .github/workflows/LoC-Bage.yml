@@ -1,9 +1,8 @@
 name: LoC Badge
 
-on:
-  push:
-    branches:
-      - main
+on: [push]
+permissions: 
+    contents: write
 
 jobs:
   Loc:
